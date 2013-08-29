@@ -119,9 +119,11 @@
 					if (method === 'replaceWith') {
 					    var eventHendlers = el.data("events")["ajaxInclude"];
 					    targetEl[el.data("method")](content);
-					    for (var index = 0; index < eventHendlers.length; index++) {
-					        eventHendlers[index].handler.call(el, { target: targetEl[0] }, content);
-					    }
+				        if (eventHendlers) {
+				            for (var index = 0; index < eventHendlers.length; index++) {
+				                eventHendlers[index].handler.call(el, { target: targetEl[0] }, content);
+				            }
+				        }
                     } else {
 						targetEl[ el.data( "method" ) ]( content );
 						el.trigger( "ajaxInclude", [ content ] );

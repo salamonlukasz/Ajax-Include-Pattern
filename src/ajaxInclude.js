@@ -115,10 +115,14 @@
 						content = filteredContent;
 					}
 
-					if( method === 'replaceWith' ) {
-						el.trigger( "ajaxInclude", [ content ] );
-						targetEl[ el.data( "method" ) ]( content );
-					} else {
+					el.trigger("ajaxIncludeBeforeInsert", [content]);
+					if (method === 'replaceWith') {
+					    var eventHendlers = el.data("events")["ajaxInclude"];
+					    targetEl[el.data("method")](content);
+					    for (var index = 0; index < eventHendlers.length; index++) {
+					        eventHendlers[index].handler.call(el, { target: targetEl[0] }, content);
+					    }
+                    } else {
 						targetEl[ el.data( "method" ) ]( content );
 						el.trigger( "ajaxInclude", [ content ] );
 					}
